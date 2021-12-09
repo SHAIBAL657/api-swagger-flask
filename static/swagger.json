@@ -106,32 +106,32 @@
     "schemas": {
       "title": {
         "properties": {
-          "uuid": {
+          "title": {
             "type": "string"
           }
         }
       },
       "bedroom": {
         "properties": {
-          "uuid": {
+          "bed": {
             "type": "string"
           }
         }
       },
       "sleeps": {
         "properties": {
-          "uuid": {
+          "sleep": {
             "type": "string"
           }
         }
       },
-      "title": {
+      "location": {
         "properties": {
-          "uuid": {
+          "loc": {
             "type": "string"
           }
         }
-      },
+      }
     }
   }
 }
