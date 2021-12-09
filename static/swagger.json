@@ -16,97 +16,122 @@
     }
   ],
   "paths": {
-        "/house/{id}": {
+        "/house/{title}/{bedroom}/{sleeps}/{location}": {
       "parameters": [
         {
-          "name": "id",
+          "name": "title",
           "in": "path",
           "required": true,
-          "description": "ID of the cat that we want to match",
+          "description": "Name for condo",
+          "type": "string"
+        },
+        {
+          "name": "bedroom",
+          "in": "path",
+          "required": true,
+          "description": "Define bedroom",
+          "type": "string"
+        },
+        {
+          "name": "sleeps",
+          "in": "path",
+          "required": true,
+          "description": "Define sleeps",
+          "type": "string"
+        },
+        {
+          "name": "location",
+          "in": "path",
+          "required": true,
+          "description": "Condo location",
           "type": "string"
         }
       ],
       "get": {
         "tags": [
-          "Book Request"
+          "House request"
         ],
-        "summary": "Get book request with given ID",
+        "summary": "Find House with given data",
         "parameters": [
           {
+            "name": "title",
             "in": "path",
-            "name": "id",
             "required": true,
-            "description": "Book Request id",
+            "description": "Name for condo",
             "schema": {
-              "$ref": "#/components/schemas/id"
+              "$ref": "#/components/schemas/title"
+            }
+          },
+          {
+            "name": "bedroom",
+            "in": "path",
+            "required": true,
+            "description": "Define bedroom",
+            "schema": {
+              "$ref": "#/components/schemas/bedroom"
+            }
+          },
+          {
+            "name": "sleeps",
+            "in": "path",
+            "required": true,
+            "description": "Define sleeps",
+            "schema": {
+              "$ref": "#/components/schemas/sleeps"
+            }
+          },
+          {
+            "name": "location",
+            "in": "path",
+            "required": true,
+            "description": "Condo location",
+            "schema": {
+              "$ref": "#/components/schemas/location"
             }
           }
         ],
         "responses": {
           "200": {
-            "description": "OK",
-            "schema": {
-              "$ref": "#/components/schemas/bookRequest"
-            }
+            "description": "OK"
           },
           "400": {
             "description": "Failed. Misunderstood Request."
           },
           "404": {
-            "description": "Failed. Book request not found."
+            "description": "Failed. House request not found."
           }
         }
       }}},
   "components": {
     "schemas": {
-      "id": {
+      "title": {
         "properties": {
           "uuid": {
             "type": "string"
           }
         }
       },
-      "bookRequestPostBody": {
-        "type": "object",
+      "bedroom": {
         "properties": {
-          "title": {
-            "type": "string",
-            "format": "string"
-          },
-          "email": {
-            "type": "string",
-            "format": "email"
+          "uuid": {
+            "type": "string"
           }
         }
       },
-      "bookRequest": {
-        "type": "object",
+      "sleeps": {
         "properties": {
-          "title": {
-            "type": "string",
-            "format": "string"
-          },
-          "email": {
-            "type": "string",
-            "format": "email"
-          },
-          "timestamp": {
-            "type": "string",
-            "format": "number"
+          "uuid": {
+            "type": "string"
           }
         }
       },
-      "bookRequests": {
-        "type": "object",
+      "title": {
         "properties": {
-          "bookRequest": {
-            "type": "object",
-            "additionalProperties": {
-              "$ref": "#/components/schemas/bookRequest"
-            }
+          "uuid": {
+            "type": "string"
           }
         }
-      }
+      },
     }
   }
 }
