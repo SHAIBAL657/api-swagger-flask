@@ -45,13 +45,14 @@ def unprotected():
     return jsonify({'message': 'Anyone can view this.'})
 
 
-@app.route('/house/<title>', methods=['GET'])
-@app.route('/house/<title>/<bedroom>', methods=['GET'])
-@app.route('/house/<title>/<bedroom>/<sleeps>', methods=['GET'])
-@app.route('/house/<title>/<bedroom>/<sleeps>/<bathroom>', methods=['GET'])
-@app.route('/house/<title>/<bedroom>/<sleeps>/<bathroom>/<price>', methods=['GET'])
-@app.route('/house/<title>/<bedroom>/<sleeps>/<bathroom>/<price>/<location>', methods=['GET'])
-def house(title='any', bedroom='0', sleeps='0', location='any'):
+@app.route('/house', methods=['GET'])
+def house():
+    title = request.args.get('name')
+    bedroom = request.args.get('bedroom')
+    sleeps = request.args.get('sleeps')
+    bathroom = request.args.get('bathroom')
+    price = request.args.get('price')
+    location = request.args.get('location')
 
     condo = []
 
@@ -61,32 +62,72 @@ def house(title='any', bedroom='0', sleeps='0', location='any'):
         password="ra3g_Df7wy",
         database="vrbo"
     )
-
+    check = False
+    query = "SELECT * FROM Condo_House WHERE"
     cursor = db_connector.cursor()
+    if title != None:
+        if check == False:
+            query += " Name LIKE" + f"'%{title}%'"
+            check = True
+        else:
+            query += " AND Name LIKE" + f"'%{title}%'"
 
-    query = ("SELECT * FROM Condo_House WHERE Location Like"+f"'%{location}%'")
+    if bedroom != None:
+        if check == False:
+            query += " Bedroom >=" + f"'{bedroom} Bedrooms'"
+            check = True
+        else:
+            query += " AND Bedroom >=" + f"'{bedroom} Bedrooms'"
+
+    if bathroom != None:
+        if check == False:
+            query += " Bathroom >=" + f"'{bathroom} Bathrooms'"
+            check = True
+        else:
+            query += " AND Bathroom >=" + f"'{bathroom} Bathrooms'"
+
+    if sleeps != None:
+        if check == False:
+            query += " Sleeps >=" + f"'Sleeps {sleeps}'"
+            check = True
+        else:
+            query += " AND Sleeps >=" + f"'Sleeps {sleeps}'"
+
+    if price != None:
+        if check == False:
+            query += " Price >=" + f"'${price}'"
+            check = True
+        else:
+            query += " AND Price >=" + f"'${price}'"
+
+    if location != None:
+        if check == False:
+            query += " Location LIKE" + f"'%{location}%'"
+        else:
+            query += " AND Location LIKE" + f"'%{location}%'"
+    print(query)
     cursor.execute(query)
-
     results = cursor.fetchall()
-
-    for x in results:
+    for result in results:
         data = {
-            "Title": x[0],
-            "Sleeps": x[1],
-            "Bedrooms": x[2],
-            "Bathrooms": x[3],
-            "Price": x[7],
-            "Picture": {
-                "Picture_1": x[4][1:-1],
-                "Picture_2": x[5][1:-1],
-                "Picture_3": x[6][1:-1],
+            "Title": result[0],
+            "Sleeps": result[1],
+            "Bedrooms": result[2],
+            "Bathrooms": result[3],
+            "Price": result[7],
+            "Image": {
+                "Image_url_1": result[4][1:-1],
+                "Image_url_2": result[5][1:-1],
+                "Image_url_3": result[6][1:-1],
             },
-            "Location": x[8],
+            "Location": result[8],
         }
         condo.append(data)
 
     houseJson = json.dumps(condo, indent=4)
+    print(condo)
     print(houseJson)
+    print(query)
     # print(title, bedroom, sleeps, location)
     return houseJson
 
