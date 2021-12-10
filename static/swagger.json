@@ -16,33 +16,47 @@
     }
   ],
   "paths": {
-        "/house/{title}/{bedroom}/{sleeps}/{location}": {
+        "/house/{title}/{bedroom}/{sleeps}/{bathroom}/{price}/{location}": {
       "parameters": [
         {
           "name": "title",
           "in": "path",
-          "required": true,
+          "required": false,
           "description": "Name for condo",
           "type": "string"
         },
         {
           "name": "bedroom",
           "in": "path",
-          "required": true,
+          "required": false,
           "description": "Define bedroom",
           "type": "string"
         },
         {
           "name": "sleeps",
           "in": "path",
-          "required": true,
+          "required": false,
           "description": "Define sleeps",
+          "type": "string"
+        },
+        {
+          "name": "bathroom",
+          "in": "path",
+          "required": false,
+          "description": "Define bathroom",
+          "type": "string"
+        },
+        {
+          "name": "price",
+          "in": "path",
+          "required": false,
+          "description": "Define price",
           "type": "string"
         },
         {
           "name": "location",
           "in": "path",
-          "required": true,
+          "required": false,
           "description": "Condo location",
           "type": "string"
         }
@@ -56,7 +70,7 @@
           {
             "name": "title",
             "in": "path",
-            "required": true,
+            "required": false,
             "description": "Name for condo",
             "schema": {
               "$ref": "#/components/schemas/title"
@@ -65,7 +79,7 @@
           {
             "name": "bedroom",
             "in": "path",
-            "required": true,
+            "required": false,
             "description": "Define bedroom",
             "schema": {
               "$ref": "#/components/schemas/bedroom"
@@ -74,16 +88,34 @@
           {
             "name": "sleeps",
             "in": "path",
-            "required": true,
+            "required": false,
             "description": "Define sleeps",
             "schema": {
               "$ref": "#/components/schemas/sleeps"
             }
           },
           {
+            "name": "bathroom",
+            "in": "path",
+            "required": false,
+            "description": "Define bathroom",
+            "schema": {
+              "$ref": "#/components/schemas/bathroom"
+            }
+          },
+          {
+            "name": "price",
+            "in": "path",
+            "required": false,
+            "description": "Define price",
+            "schema": {
+              "$ref": "#/components/schemas/price"
+            }
+          },
+          {
             "name": "location",
             "in": "path",
-            "required": true,
+            "required": false,
             "description": "Condo location",
             "schema": {
               "$ref": "#/components/schemas/location"
@@ -121,6 +153,20 @@
       "sleeps": {
         "properties": {
           "sleep": {
+            "type": "string"
+          }
+        }
+      },
+      "bathroom": {
+        "properties": {
+          "bath": {
+            "type": "string"
+          }
+        }
+      },
+      "price": {
+        "properties": {
+          "money": {
             "type": "string"
           }
         }
