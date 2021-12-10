@@ -5,13 +5,27 @@ from functools import wraps
 from flask_swagger_ui import get_swaggerui_blueprint
 import mysql.connector
 import json
+import operator
 
 token_id = ''
 app = Flask(__name__)
 
-### end swagger specific ###
 app.config['SECRET_KEY'] = 'weengineers'
+#### Swagger path initialized ###
+SWAGGER_URL = '/swagger'
+API_URL = '/static/swagger.json'
+SWAGGERUI_BLUEPRINT = get_swaggerui_blueprint(
+    SWAGGER_URL,
+    API_URL,
+    config={
+        'app_name': "shaibal657"
+    }
+)
 
+app.register_blueprint(SWAGGERUI_BLUEPRINT, url_prefix=SWAGGER_URL)
+
+
+### end swagger specific ###
 
 # Token Decorator
 
@@ -47,7 +61,7 @@ def unprotected():
 
 @app.route('/house', methods=['GET'])
 def house():
-    title = request.args.get('name')
+    title = request.args.get('title')
     bedroom = request.args.get('bedroom')
     sleeps = request.args.get('sleeps')
     bathroom = request.args.get('bathroom')
@@ -123,12 +137,11 @@ def house():
             "Location": result[8],
         }
         condo.append(data)
-
+    condo.sort(key=operator.itemgetter('Bedrooms'))
     houseJson = json.dumps(condo, indent=4)
     print(condo)
     print(houseJson)
     print(query)
-    # print(title, bedroom, sleeps, location)
     return houseJson
 
 
@@ -137,17 +150,7 @@ def house():
 @token_required
 def protected():
     # return jsonify({'message': 'Only available to people with valid tokens.'})
-    SWAGGER_URL = '/swagger'
-    API_URL = '/static/swagger.json'
-    SWAGGERUI_BLUEPRINT = get_swaggerui_blueprint(
-        SWAGGER_URL,
-        API_URL,
-        config={
-            'app_name': "shaibal657"
-        }
-    )
 
-    app.register_blueprint(SWAGGERUI_BLUEPRINT, url_prefix=SWAGGER_URL)
     return redirect("http://127.0.0.1:5000/swagger", code=302)
 
 

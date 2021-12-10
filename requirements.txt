@@ -1,0 +1,4 @@
+PyJWT~=2.3.0
+mysql~=0.0.3
+mysql-connector-python~=8.0.27
+Flask~=2.0.2
